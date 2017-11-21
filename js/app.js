@@ -1,11 +1,9 @@
 var userInfo = undefined;
-var chatRef = firebase.database().ref("chat");
-var chat = new Firechat(chatRef);
+var chat = new Firechat(firebase.database().ref("chat"));
 
 firebase.auth().onAuthStateChanged(function(user){
 	if(user){
 		userInfo = user;
-
 		initChat(user);
 	} else {
 		//redirect to login page if user hasn't logon
@@ -14,7 +12,6 @@ firebase.auth().onAuthStateChanged(function(user){
 });
 
 function initChat(user){
-
 	chat.setUser(user.uid, user.displayName, function(user){
 
 	})
