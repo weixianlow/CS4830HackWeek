@@ -6,4 +6,5 @@ var config = {
     storageBucket: "cs4830hackweek.appspot.com",
     messagingSenderId: "430410065620"
   };
-  firebase.initializeApp(config);
+
+firebase.initializeApp(config);
