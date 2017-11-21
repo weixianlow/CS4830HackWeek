@@ -24,8 +24,11 @@
 			<h1>Turn on your dang javascript >:(</h1>
 		</noscript>
 		<div class="container">
-			<h1>Your Groups</h1>
+			<h1 data-ng-init="groups.loadGroups()">Groups</h1>
 			<div>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="group in groups.groupList">{{group.name}}</li>
+				</ul>
 				<button class="btn btn-lg btn-success col-md-12 col-lg-12" data-toggle="modal" data-target="#newGroupModal"><span class="glyphicon glyphicon-plus"></span> Create New Group</button>
 			</div>
 		</div>

@@ -1,4 +1,18 @@
-angular.module('ChatGroupList', []).controller('GroupListController', function(){
+angular.module('ChatGroupList', []).controller('GroupListController', function($scope){
+
+	this.loadGroups = function(){
+
+		var outer = this;
+
+		chat.getRoomList(function(groupObj){
+			outer.groupList = Object.entries(groupObj).map(function(elem){
+				return elem[1];
+			});
+
+			$scope.$apply();
+		});
+	}
+
 	this.create = function(){
 		if(this.newGroupName){
 			console.log(this.newGroupName);
