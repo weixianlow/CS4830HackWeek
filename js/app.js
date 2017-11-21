@@ -1,4 +1,6 @@
 var userInfo = undefined;
+var chatRef = firebase.database().ref("chat");
+var chat = new Firechat(chatRef);
 
 firebase.auth().onAuthStateChanged(function(user){
 	if(user){
@@ -12,9 +14,7 @@ firebase.auth().onAuthStateChanged(function(user){
 });
 
 function initChat(user){
-	var chatRef = firebase.database().ref("chat");
 
-	var chat = new Firechat(chatRef);
 	chat.setUser(user.uid, user.displayName, function(user){
 
 	})
