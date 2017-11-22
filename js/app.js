@@ -37,16 +37,21 @@ function createGroup(user, groupName){
 
 //to get a list of group that the user has joined/
 function getGroupListJoined(user){
+	var response;
 	dbRef.child("users/" + user.uid + "/groups/").once(function (snapshot){
-		return(snapshot.val());
+		this.response = snapshot;
 	});
+
+	return (response.val());
 }
 
 //to get a list of groups to join, treat it as a public view
 function getGroupList(){
+	var response;
 	dbRef.child("groups/").once(function (snapshot){
-		return(snapshot.val());
+		this.response = snapshot;
 	});
+	return(response.val());
 }
 
 //to add a user to an existing group
