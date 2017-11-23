@@ -12,11 +12,25 @@
 		<script src="js/firebaseConfig.js"></script>
 
 		<script type="text/javascript">
-			
-
 			// FirebaseUI config.
 			var uiConfig = {
-				signInSuccessUrl: 'user.html',
+				callbacks: {
+					signInSuccess: function(currentUser, credential, redirectUrl) {
+						dbRef.child("users/" + currentUser.uid).once("value").then(function(snapshot){
+							if(!(snapshot.val() && snapshot.val().username)){
+								dbRef.child("users/" + currentUser.uid).set({
+									username: currentUser.displayName,
+									email: currentUser.email,
+									uid : currentUser.uid
+								});
+							}
+
+							window.location.replace("user.html");
+						});
+	
+						return false;
+					}
+				},
 				signInOptions: [
 					// Leave the lines as is for the providers you want to offer your users.
 					firebase.auth.GoogleAuthProvider.PROVIDER_ID,
