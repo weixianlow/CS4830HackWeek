@@ -1,4 +1,4 @@
-angular.module('ChatGroupList', []).controller('GroupListController', function($scope, $timeout){
+angular.module('ChatGroupList', []).controller('GroupListController', function($scope, $timeout, $window){
 	var outer = this;
 
 	this.userGroups = [];
@@ -19,7 +19,10 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 	}
 
 	this.joinChat = function(group){
-		console.log(group);	
+		console.log(group);
+		$window.localStorage.setItem("groupName", group);
+		//$window.localStorage.getItem("groupName");
+		//$window.localStorage.removeItem("groupName")
 	}
 
 	this.join = function(){
@@ -32,7 +35,7 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 							$("#warningAlreadyJoined").show();
 						}else{
 							dbRef.child("users/"+userInfo.uid + "/groups/" + outer.joinGroupName + "/").set({
-								
+
 								role: "participant"
 							});
 							outer.userGroups.push({name: outer.joinGroupName});
@@ -61,7 +64,7 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 					dbRef.child("groups/" + outer.newGroupName + "/").set({
 						name: outer.newGroupName,
 					});
-	
+
 					dbRef.child("users/" + userInfo.uid + "/groups/" + outer.newGroupName + "/").set({
 						role: "owner"
 					});
