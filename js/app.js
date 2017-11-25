@@ -65,10 +65,21 @@ function sendMessage(user, groupName){
 	//to be continued
 	//need to add Date to here to monitor which message comes first, so you can sort on client side.
 	//firebase also have a sort feature if you use .once(). check documentation
+	var date = Date.now()
+	var newDbRef = dbRef.child("groups/" + groupName + "messages/").push()
+
+	newDbRef.set({
+		msgOwner = user.uid,
+		msgData = messageData
+	});
 }
 
 function retrieveMessage(user, groupName){
 	//to be continued
 	//also, after calling this function, .on() needs to be called and set to monitor "value" changes for new messages.
 	//.on() will call a function with a snapshot of the new message, we can then use the snapshot.val() to append a message to the message view.
+
+	var data = dbRef.child("groups/" + groupName + "messages/").once('value').orderByValue()
+
+	//do whatever you want with data, it's sorted chronologically
 }
