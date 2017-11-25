@@ -10,52 +10,70 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 				outer.userGroups = Object.entries(snapshot.val()).map(function(elem){
 					return {
 						name:elem[0],
-						role:elem[1].role
 					};
 				});
 
 				$scope.$apply();
 			});
-		}, 256);
+		}, 512);
+	}
+
+	this.joinChat = function(group){
+		console.log(group);	
 	}
 
 	this.join = function(){
+		if(this.joinGroupName){
+			dbRef.child("groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
+				if(snapshot.val()){
+					dbRef.child("users/"+ userInfo.uid + "/groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
+						if(snapshot.val()){
+							$("#joinGroupModal").modal("hide");
+							$("#warningAlreadyJoined").show();
+						}else{
+							dbRef.child("users/"+userInfo.uid + "/groups/" + outer.joinGroupName + "/").set({
+								
+								role: "participant"
+							});
+							outer.userGroups.push({name: outer.joinGroupName});
+							outer.joinGroupName = "";
+							$scope.$apply();
 
-		dbRef.child("groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
-			if (snapshot.val()){
-				
-			}else{
-				dbRef.child("users/"+ userInfo.uid + "/groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
-					if(snapshot.val()){
-
-					}else{
-						dbRef.child("users/"+userInfo.uid + "/groups/" + outer.joinGroupName + "/").set({
-							role: "participant"
-						});
-					}
-				});
-			}
-		});
-
-		outer.joinGroupName = "";
+							$("#joinGroupModal").modal("hide");
+							$("#successGroupJoined").show();
+						}
+					});
+				}else{
+					$("#joinGroupModal").modal("hide");
+					$("#errorNoSuchGroup").show();
+				}
+			});
+		}
 	}
 
 	this.create = function(){
-		dbRef.child("groups/" + outer.newGroupName).once("value").then(function(snapshot){
-			if(snapshot.val()){
-				$("#newGroupModal").modal("hide");
-				$("#errorDuplicateGroup").show();
-			} else {
-				dbRef.child("groups/" + outer.newGroupName + "/").set({
-					name: outer.newGroupName,
-				});
+		if(this.newGroupName){
+			dbRef.child("groups/" + outer.newGroupName).once("value").then(function(snapshot){
+				if(snapshot.val()){
+					$("#newGroupModal").modal("hide");
+					$("#errorDuplicateGroup").show();
+				} else {
+					dbRef.child("groups/" + outer.newGroupName + "/").set({
+						name: outer.newGroupName,
+					});
+	
+					dbRef.child("users/" + userInfo.uid + "/groups/" + outer.newGroupName + "/").set({
+						role: "owner"
+					});
 
-				dbRef.child("users/" + userInfo.uid + "/groups/" + outer.newGroupName + "/").set({
-					role: "owner"
-				});
+					outer.userGroups.push({name: outer.newGroupName});
+					outer.newGroupName = "";
+					$scope.$apply();
 
-				outer.newGroupName = "";
-			}
-		});
+					$("#newGroupModal").modal("hide");
+					$("#successGroupCreated").show();
+				}
+			});
+		}
 	}
 });

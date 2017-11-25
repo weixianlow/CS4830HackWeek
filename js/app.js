@@ -69,8 +69,8 @@ function sendMessage(user, groupName){
 	var newDbRef = dbRef.child("groups/" + groupName + "messages/").push()
 
 	newDbRef.set({
-		msgOwner = user.uid,
-		msgData = messageData
+		msgOwner: user.uid,
+		msgData: messageData
 	});
 }
 

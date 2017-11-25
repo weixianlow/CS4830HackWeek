@@ -30,11 +30,25 @@
 				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times</a>
 				<strong>Error</strong> No group with that name exists. Check your spelling and case sensitivity.
 			</div>
+			<div id="warningAlreadyJoined" class="alert alert-warning alert-dismissable" hidden>
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times</a>
+				<strong>Warning</strong> You are already a member of the group.
+			</div>
+			<div id="successGroupCreated" class="alert alert-success alert-dismissable" hidden>
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times</a>
+				<strong>Success</strong> Group created.
+			</div>
+			<div id="successGroupJoined" class="alert alert-success alert-dismissable" hidden>
+				<a href="#" class="close" data-dismiss="alert" aria-label="close">&times</a>
+				<strong>Success</strong> Joined group.
+			</div>
 
 			<h1 data-ng-init="groups.loadGroups()">Groups</h1>
 			<div>
 				<ul class="list-group">
-					<li class="list-group-item" ng-repeat="group in groups.userGroups">{{group.name}}</li>
+					<li class="list-group-item" ng-repeat="group in groups.userGroups">
+						<button type="button" class="btn btn-link" ng-click="groups.joinChat(group.name)">{{group.name}}</button>
+					</li>
 				</ul>
 				<button class="btn btn-lg btn-primary col-md-12 col-lg-12" data-toggle="modal" data-target="#joinGroupModal"><span class="glyphicon glyphicon-plus"></span><span class="glyphicon glyphicon-user"></span> Join Group</button>
 				<button class="btn btn-lg btn-success col-md-12 col-lg-12" data-toggle="modal" data-target="#newGroupModal"><span class="glyphicon glyphicon-plus"></span> Create New Group</button>
@@ -66,7 +80,7 @@
 								<label for="groupName">Group Name:</label>
 								<input type="text" class="form-control" id="groupName" ng-model="groups.joinGroupName">
 							</div>
-							<button type="submit" class="btn btn-default" ng-click="groups.create()">Join</button>
+							<button type="submit" class="btn btn-default" ng-click="groups.join()">Join</button>
 						</form>
 					</div>
 				</div>
