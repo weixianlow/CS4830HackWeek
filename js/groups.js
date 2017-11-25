@@ -19,7 +19,24 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 		}, 256);
 	}
 
-	this.join = function(){		
+	this.join = function(){
+
+		dbRef.child("groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
+			if (snapshot.val()){
+				
+			}else{
+				dbRef.child("users/"+ userInfo.uid + "/groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
+					if(snapshot.val()){
+
+					}else{
+						dbRef.child("users/"+userInfo.uid + "/groups/" + outer.joinGroupName + "/").set({
+							role: "participant"
+						});
+					}
+				});
+			}
+		});
+
 		outer.joinGroupName = "";
 	}
 
