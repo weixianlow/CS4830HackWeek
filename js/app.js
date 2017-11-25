@@ -10,7 +10,7 @@ firebase.auth().onAuthStateChanged(function(user){
 		//we can probably remove the group.js, unless you want to write specific .js file for each of the page. I'm good with that too, we can then seperate the functions to their own .js accordingly.
 	} else {
 		//redirect to login page if user hasn't logon
-		window.location.replace("http://cs4085.weixianlow.me/login.html"); //probably should change this back to the original login page <----------
+		window.location.replace("index.html"); //probably should change this back to the original login page <----------
 	}
 });
 
