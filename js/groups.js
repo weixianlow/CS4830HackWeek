@@ -1,5 +1,9 @@
 angular.module('ChatGroupList', []).controller('GroupListController', function($scope, $interval, $window){
+	history.pushState(null, "CS4830-HackWeek: Login", "http://ec2-52-15-213-101.us-east-2.compute.amazonaws.com/CS4830HackWeek/index.html");
+
 	var outer = this;
+
+
 
 	this.userGroups = [];
 
@@ -13,11 +17,11 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 							name:elem[0],
 						};
 					});
-	
+
 					$scope.$apply();
 
 					if(angular.isDefined(userCheck)){
-						$interval.cancel(userCheck);	
+						$interval.cancel(userCheck);
 					}
 				});
 			}
