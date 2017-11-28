@@ -2,20 +2,9 @@ angular.module('Chat', []).controller('ChatController', function($scope, $window
 
 	var outer = this;
 	var groupName = $window.localStorage.getItem("groupName");
+	var delayedRefresh;
 
 	this.messages = [];	
-
-	/*this.loadMessages = function(){
-		 dbRef.child("groups/" + groupName + "/messages/").limitToLast(50).once('value').then(function(snapshot){
-			outer.messages = Object.entries(snapshot.val()).map(function(elem){
-				return {
-					name: elem[1].owner,
-					data: elem[1].data
-				};
-			});
-			$scope.$apply();
-		});
-	}*/
 
 	this.sendMessage = function(){
 		if(outer.input){
@@ -38,7 +27,18 @@ angular.module('Chat', []).controller('ChatController', function($scope, $window
 			name: newMessage.owner,
 			data: newMessage.data
 		});
-
-		//$scope.$apply();
+	
+		var phase = $scope.$$phase;
+	
+		if(phase === "$digest" || phase === "$apply" ){
+			if(!delayedRefresh){
+				delayedRefresh = setTimeout(function(){
+					$scope.$apply();
+					delayedRefresh = undefined;
+				}, 512);
+			}	
+		} else {
+			$scope.$apply();
+		}
 	});
 });
