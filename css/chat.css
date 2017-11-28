@@ -10,7 +10,8 @@
 #messages{
 	flex-grow: 1;
     flex-direction: column;
-    justify-content: flex-end;
+	height: auto!important;
+	overflow-y: auto;
 }
 
 #messages p{
@@ -22,6 +23,10 @@
 	border-color: black;
 	caret-color: white;
 	color: white;
+}
+
+#spacer{
+	flex-grow: 1;
 }
 
 .flex{

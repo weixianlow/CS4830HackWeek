@@ -1,7 +1,7 @@
 angular.module('Chat', []).controller('ChatController', function($scope, $window){
 
 	var outer = this;
-	var groupName = $window.localStorage.getItem("groupName");
+	this.groupName = $window.localStorage.getItem("groupName");
 	var delayedRefresh;
 
 	this.messages = [];	
@@ -9,7 +9,7 @@ angular.module('Chat', []).controller('ChatController', function($scope, $window
 	this.sendMessage = function(){
 		if(outer.input){
 			var date = Date.now();
-		    var newDbRef = dbRef.child("groups/" + groupName + "/messages/").push();
+		    var newDbRef = dbRef.child("groups/" + outer.groupName + "/messages/").push();
 
 		    newDbRef.set({
 				owner: userInfo.displayName,
@@ -20,7 +20,7 @@ angular.module('Chat', []).controller('ChatController', function($scope, $window
 		}
 	}
 
-	dbRef.child("groups/" + groupName + "/messages/").on("child_added", function(snapshot){
+	dbRef.child("groups/" + outer.groupName + "/messages/").on("child_added", function(snapshot){
 		var newMessage = snapshot.val();
 
 		outer.messages.push({
@@ -34,11 +34,13 @@ angular.module('Chat', []).controller('ChatController', function($scope, $window
 			if(!delayedRefresh){
 				delayedRefresh = setTimeout(function(){
 					$scope.$apply();
+					document.getElementById("messages").scrollTo(0, 10000);
 					delayedRefresh = undefined;
 				}, 512);
 			}	
 		} else {
 			$scope.$apply();
+			document.getElementById("messages").scrollTo(0, 10000);
 		}
 	});
 });
