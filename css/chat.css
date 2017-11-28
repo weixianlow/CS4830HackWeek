@@ -1,0 +1,41 @@
+#chat{
+	border-left: 2px solid #999;
+}
+
+#main{
+	height: 100vh;
+	padding: 0;
+}
+
+#messages{
+	flex-grow: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+#messages p{
+	color: white;
+}
+
+#sendMessage input{
+	background-color: #666666;
+	border-color: black;
+	caret-color: white;
+	color: white;
+}
+
+.flex{
+	display: flex;
+}
+
+.flexVertical{
+	flex-direction: column;
+}
+
+.container>*{
+	padding: 10em 5em;;
+}
+
+body{
+	background-color: #212121;
+}

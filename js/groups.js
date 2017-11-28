@@ -3,8 +3,6 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 	var outer = this;
 
-
-
 	this.userGroups = [];
 
 	this.loadGroups = function(){
@@ -30,8 +28,6 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 	this.joinChat = function(group){
 		$window.localStorage.setItem("groupName", group);
-		//$window.localStorage.getItem("groupName");
-		//$window.localStorage.removeItem("groupName");
 		window.location.replace("chat.html");
 	}
 
