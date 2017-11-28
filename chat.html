@@ -24,9 +24,9 @@
 		<div id="main" class="flex col-md-12 col-lg-12">
 			<div class="col-md-2 col-lg-2"></div>
 			<div id="chat" class="col-md-10 col-lg-10 flex flexVertical">
-				<div id="messages" class="flex">
+				<div id="messages" class="flex" data-ng-init="chat.loadMessages()">
 					<p ng-repeat="message in chat.messages">
-						<strong>{{message.name}}</strong>{{message.data}}
+						<strong>{{message.name}}: </strong>{{message.data}}
 					</p>
 				</div>
 				<form id="sendMessage" ng-submit="chat.sendMessage()">
