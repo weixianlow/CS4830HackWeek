@@ -1,21 +1,27 @@
-angular.module('ChatGroupList', []).controller('GroupListController', function($scope, $timeout, $window){
+angular.module('ChatGroupList', []).controller('GroupListController', function($scope, $interval, $window){
 	var outer = this;
 
 	this.userGroups = [];
 
 	this.loadGroups = function(){
 
-		$timeout(function(){
-			dbRef.child("users/" + userInfo.uid + "/groups/").once("value").then(function(snapshot){
-				outer.userGroups = Object.entries(snapshot.val()).map(function(elem){
-					return {
-						name:elem[0],
-					};
-				});
+		var userCheck = $interval(function(){
+			if(userInfo){
+				dbRef.child("users/" + userInfo.uid + "/groups/").once("value").then(function(snapshot){
+					outer.userGroups = Object.entries(snapshot.val()).map(function(elem){
+						return {
+							name:elem[0],
+						};
+					});
+	
+					$scope.$apply();
 
-				$scope.$apply();
-			});
-		}, 512);
+					if(angular.isDefined(userCheck)){
+						$interval.cancel(userCheck);	
+					}
+				});
+			}
+		}, 10, 64);
 	}
 
 	this.joinChat = function(group){
