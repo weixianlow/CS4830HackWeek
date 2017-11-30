@@ -5,6 +5,8 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 	this.userGroups = [];
 
+
+
 	this.loadGroups = function(){
 
 		var userCheck = $interval(function(){
@@ -44,6 +46,10 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 								role: "participant"
 							});
+							dbRef.child("groups/"+ outer.joinGroupName + "/users/participant/" + userInfo.displayName + "/").set({
+
+								userUID: userinfo.uid
+							});
 							outer.userGroups.push({name: outer.joinGroupName});
 							outer.joinGroupName = "";
 							$scope.$apply();
@@ -73,6 +79,10 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 					dbRef.child("users/" + userInfo.uid + "/groups/" + outer.newGroupName + "/").set({
 						role: "owner"
+					});
+					dbRef.child("groups/"+ outer.joinGroupName + "/users/owner/" + userInfo.displayName + "/").set({
+
+						userUID: userinfo.uid
 					});
 
 					outer.userGroups.push({name: outer.newGroupName});
