@@ -48,7 +48,7 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 							});
 							dbRef.child("groups/"+ outer.joinGroupName + "/users/participant/" + userInfo.displayName + "/").set({
 
-								userUID: userinfo.uid
+								userUID: userInfo.uid
 							});
 							outer.userGroups.push({name: outer.joinGroupName});
 							outer.joinGroupName = "";
@@ -80,9 +80,9 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 					dbRef.child("users/" + userInfo.uid + "/groups/" + outer.newGroupName + "/").set({
 						role: "owner"
 					});
-					dbRef.child("groups/"+ outer.joinGroupName + "/users/owner/" + userInfo.displayName + "/").set({
+					dbRef.child("groups/"+ outer.newGroupName + "/users/owner/" + userInfo.displayName + "/").set({
 
-						userUID: userinfo.uid
+						userUID: userInfo.uid
 					});
 
 					outer.userGroups.push({name: outer.newGroupName});
