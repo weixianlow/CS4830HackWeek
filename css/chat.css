@@ -29,6 +29,14 @@
 	flex-grow: 1;
 }
 
+#userList h3{
+	color: white;
+}
+
+#userList p{
+	color: #aaa;
+}
+
 .flex{
 	display: flex;
 }
