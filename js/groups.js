@@ -5,8 +5,6 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 	this.userGroups = [];
 
-
-
 	this.loadGroups = function(){
 
 		var userCheck = $interval(function(){

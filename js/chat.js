@@ -1,16 +1,31 @@
+var groupName = window.localStorage.getItem("groupName");
+
+/*dbRef.child("users/" + user.uid + "/groups/" + this.groupName + "/").once("value").then(function(snapshot){
+	if (snapshot == null){
+		window.location.replace("user.html");
+	}
+});*/
+
 angular.module('Chat', []).controller('ChatController', function($scope, $window){
 
 	var outer = this;
-	this.groupName = $window.localStorage.getItem("groupName");
-
-	dbRef.child("users/" + user.uid + "/groups/" + this.groupName + "/").once("value").then(function(snapshot){
-		if (snapshot == null){
-			window.location.replace("user.html");
-		}
-	});
-
 	var delayedRefresh;
 
+	this.groupName = groupName;
+
+	/*users*/
+	this.moderators = {
+		isShown: false
+	};
+	this.members = {
+		isShown: false
+	}
+
+	this.toggleShown = function(userType){
+		userType.isShown = !userType.isShown;
+	}
+
+	/*messages*/
 	this.messages = [];
 
 	this.sendMessage = function(){

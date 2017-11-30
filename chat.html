@@ -25,9 +25,15 @@
 			<div id="userList" class="col-md-2 col-lg-2">
 				<h3>Owner</h3>
 				<div><p>Spam Magnet</p></div>
-				<h3>Moderator <span class="glyphicon glyphicon-chevron-right"></span><span class="glyphicon glyphicon-chevron-down"></span></h3>
+				<h3 ng-click="chat.toggleShown(chat.moderators)">Moderator 
+					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.moderators.isShown"></span>
+					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.moderators.isShown"></span>
+				</h3>
 				<div><p></p></div>
-				<h3>Member <span class="glyphicon glyphicon-chevron-right"></span><span class="glyphicon glyphicon-chevron-down"></span></h3>
+				<h3 ng-click="chat.toggleShown(chat.members)">Member 
+					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.members.isShown"></span>
+					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.members.isShown"></span>
+				</h3>
 				<div><p></p></div>
 			</div>
 			<div id="chat" class="col-md-10 col-lg-10 flex flexVertical">
