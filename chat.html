@@ -29,14 +29,14 @@
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.moderators.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.moderators.isShown"></span>
 				</h3>
-				<div id="mods" hidden>
+				<div id="mods" class="toggleBox" hidden>
 					<p ng-repeat="user in chat.moderators.users">{{user}}</p>
 				</div>
 				<h3 ng-click="chat.toggleShown(chat.members)">Members
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.members.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.members.isShown"></span>
 				</h3>
-				<div id="members" hidden>
+				<div id="members" class="toggleBox" hidden>
 					<p ng-repeat="user in chat.members.users">{{user}}</p>
 				</div>
 			</div>
