@@ -6,7 +6,7 @@ var groupName = window.localStorage.getItem("groupName");
 	}
 });*/
 
-angular.module('Chat', []).controller('ChatController', function($scope, $window){
+angular.module('Chat', []).controller('ChatController', function($scope){
 
 	var outer = this;
 	var delayedRefresh;

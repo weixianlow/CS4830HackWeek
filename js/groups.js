@@ -9,25 +9,28 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 		var userCheck = $interval(function(){
 			if(userInfo){
-				dbRef.child("users/" + userInfo.uid + "/groups/").once("value").then(function(snapshot){
-					outer.userGroups = Object.entries(snapshot.val()).map(function(elem){
-						return {
-							name:elem[0],
-						};
-					});
+				dbRef.child("groupsOfUsers/" + userInfo.uid + "/").once("value").then(function(snapshot){
+					if(snapshot.val()){
+						outer.userGroups = Object.entries(snapshot.val()).map(function(elem){
+							return {
+								name:elem[0],
+							};
+						});
 
-					$scope.$apply();
-
-					if(angular.isDefined(userCheck)){
-						$interval.cancel(userCheck);
+						$scope.$apply();
 					}
 				});
+
+				if(angular.isDefined(userCheck)){
+					$interval.cancel(userCheck);
+					userCheck = undefined;
+				}
 			}
 		}, 10, 64);
 	}
 
 	this.joinChat = function(group){
-		$window.localStorage.setItem("groupName", group);
+		window.localStorage.setItem("groupName", group);
 		window.location.replace("chat.html");
 	}
 
@@ -35,26 +38,29 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 		if(this.joinGroupName){
 			dbRef.child("groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
 				if(snapshot.val()){
-					dbRef.child("users/"+ userInfo.uid + "/groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
-						if(snapshot.val()){
+					dbRef.child("usersInGroups/" + outer.joinGroupName + "/" + userInfo.uid).once("value").then(function(snapshot){
+						/*if(snapshot.val()){
 							$("#joinGroupModal").modal("hide");
 							$("#warningAlreadyJoined").show();
-						}else{
-							dbRef.child("users/"+userInfo.uid + "/groups/" + outer.joinGroupName + "/").set({
+						}else{*/
 
-								role: "participant"
-							});
-							dbRef.child("groups/"+ outer.joinGroupName + "/users/participant/" + userInfo.displayName + "/").set({
+							var groupsOfUsersEntry = {};
+							groupsOfUsersEntry[outer.joinGroupName] = true;
 
-								userUID: userInfo.uid
-							});
+							dbRef.child("groupsOfUsers/" + userInfo.uid).update(groupsOfUsersEntry);
+
+							var usersInGroupsEntry = {};
+							usersInGroupsEntry[userInfo.uid] = "member";
+
+							dbRef.child("usersInGroups/" + outer.joinGroupName).update(usersInGroupsEntry);
+
 							outer.userGroups.push({name: outer.joinGroupName});
 							outer.joinGroupName = "";
 							$scope.$apply();
 
 							$("#joinGroupModal").modal("hide");
 							$("#successGroupJoined").show();
-						}
+						//}
 					});
 				}else{
 					$("#joinGroupModal").modal("hide");
@@ -71,16 +77,18 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 					$("#newGroupModal").modal("hide");
 					$("#errorDuplicateGroup").show();
 				} else {
-					dbRef.child("groups/" + outer.newGroupName + "/").set({
-						name: outer.newGroupName,
-					});
+					var groupsOfUsersEntry = {};
+					groupsOfUsersEntry[outer.newGroupName] = true;
 
-					dbRef.child("users/" + userInfo.uid + "/groups/" + outer.newGroupName + "/").set({
-						role: "owner"
-					});
-					dbRef.child("groups/"+ outer.newGroupName + "/users/owner/" + userInfo.displayName + "/").set({
+					dbRef.child("groupsOfUsers/" + userInfo.uid + "/").set(groupsOfUsersEntry);
 
-						userUID: userInfo.uid
+					var usersInGroupsEntry = {};
+					usersInGroupsEntry[userInfo.uid] = "owner";
+
+					dbRef.child("usersInGroups/" + outer.newGroupName + "/").set(usersInGroupsEntry);
+
+					dbRef.child("groups/" + outer.newGroupName).set({
+						name: outer.newGroupName
 					});
 
 					outer.userGroups.push({name: outer.newGroupName});

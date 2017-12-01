@@ -13,3 +13,7 @@ firebase.auth().onAuthStateChanged(function(user){
 		window.location.replace("index.html"); //probably should change this back to the original login page <----------
 	}
 });
+
+function promiseUpdate(value, $scope, updateFn){
+	
+}
