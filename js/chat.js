@@ -14,15 +14,60 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 	this.groupName = groupName;
 
 	/*users*/
+
 	this.moderators = {
-		isShown: false
+		isShown: false,
+		id: "#mods",
+		users: []
 	};
 	this.members = {
-		isShown: false
+		isShown: false,
+		id: "#members",
+		users: []
 	}
+
+	dbRef.child("usersInGroups/" + outer.groupName).once("value").then(function(snapshot){
+		snapshot.forEach(function(child){
+			var user = child.val();
+
+			if(userInfo.uid === child.key){
+				outer.role = user.role;
+			}
+
+
+			switch(user.role){
+				case "member":
+					outer.members.users.push(user.name);
+					console.log(outer.members);
+					break;
+
+				case "moderator":
+					outer.moderators.users.push(user.name);
+					break;
+			}
+		});
+
+		var phase = $scope.$$phase;
+
+		if(phase === "$digest" || phase === "$apply" ){
+			if(!delayedRefresh){
+				delayedRefresh = setTimeout(function(){
+					$scope.$apply();
+					delayedRefresh = undefined;
+				}, 512);
+			}
+		}else{	
+			$scope.$apply();
+		}
+	});
 
 	this.toggleShown = function(userType){
 		userType.isShown = !userType.isShown;
+		if(userType.users && userType.users.length){
+			$(userType.id).animate({
+			    height: 'toggle'
+			});
+		}
 	}
 
 	/*messages*/

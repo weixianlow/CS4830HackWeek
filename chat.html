@@ -29,12 +29,16 @@
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.moderators.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.moderators.isShown"></span>
 				</h3>
-				<div><p></p></div>
+				<div id="mods" hidden>
+					<p ng-repeat="user in chat.moderators.users">{{user}}</p>
+				</div>
 				<h3 ng-click="chat.toggleShown(chat.members)">Member 
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.members.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.members.isShown"></span>
 				</h3>
-				<div><p></p></div>
+				<div id="members" hidden>
+					<p ng-repeat="user in chat.members.users">{{user}}</p>
+				</div>
 			</div>
 			<div id="chat" class="col-md-10 col-lg-10 flex flexVertical">
 				<div id="messages" class="flex" data-ng-init="chat.loadMessages()">

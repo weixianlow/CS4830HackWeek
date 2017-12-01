@@ -39,10 +39,10 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 			dbRef.child("groups/" + outer.joinGroupName + "/").once("value").then(function(snapshot){
 				if(snapshot.val()){
 					dbRef.child("usersInGroups/" + outer.joinGroupName + "/" + userInfo.uid).once("value").then(function(snapshot){
-						/*if(snapshot.val()){
+						if(snapshot.val()){
 							$("#joinGroupModal").modal("hide");
 							$("#warningAlreadyJoined").show();
-						}else{*/
+						}else{
 
 							var groupsOfUsersEntry = {};
 							groupsOfUsersEntry[outer.joinGroupName] = true;
@@ -50,7 +50,10 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 							dbRef.child("groupsOfUsers/" + userInfo.uid).update(groupsOfUsersEntry);
 
 							var usersInGroupsEntry = {};
-							usersInGroupsEntry[userInfo.uid] = "member";
+							usersInGroupsEntry[userInfo.uid] = {
+								role: "member",
+								name: userInfo.displayName
+							};
 
 							dbRef.child("usersInGroups/" + outer.joinGroupName).update(usersInGroupsEntry);
 
@@ -60,7 +63,7 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 
 							$("#joinGroupModal").modal("hide");
 							$("#successGroupJoined").show();
-						//}
+						}
 					});
 				}else{
 					$("#joinGroupModal").modal("hide");
@@ -83,7 +86,10 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 					dbRef.child("groupsOfUsers/" + userInfo.uid + "/").set(groupsOfUsersEntry);
 
 					var usersInGroupsEntry = {};
-					usersInGroupsEntry[userInfo.uid] = "owner";
+					usersInGroupsEntry[userInfo.uid] = {
+						role: "owner",
+						name: userInfo.displayName
+					};
 
 					dbRef.child("usersInGroups/" + outer.newGroupName + "/").set(usersInGroupsEntry);
 
