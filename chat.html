@@ -25,14 +25,14 @@
 			<div id="userList" class="col-md-2 col-lg-2">
 				<h3>Owner</h3>
 				<div><p>Spam Magnet</p></div>
-				<h3 ng-click="chat.toggleShown(chat.moderators)">Moderator 
+				<h3 ng-click="chat.toggleShown(chat.moderators)">Moderators 
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.moderators.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.moderators.isShown"></span>
 				</h3>
 				<div id="mods" hidden>
 					<p ng-repeat="user in chat.moderators.users">{{user}}</p>
 				</div>
-				<h3 ng-click="chat.toggleShown(chat.members)">Member 
+				<h3 ng-click="chat.toggleShown(chat.members)">Members
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.members.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.members.isShown"></span>
 				</h3>

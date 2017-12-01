@@ -35,7 +35,14 @@
 
 #userList h3:not(:first-child){
 	cursor: pointer;
+	background-color: #333;
+	padding: .5em;
 }
+
+#userList h3:not(:first-child):hover{
+	background-color: #444;
+}
+
 #userList p{
 	color: #aaa;
 }
