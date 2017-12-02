@@ -23,7 +23,7 @@
 		<div id="main" class="flex col-md-12 col-lg-12">
 			<div id="userList" class="col-md-2 col-lg-2">
 				<h3>Owner</h3>
-				<div><p>Spam Magnet</p></div>
+				<div><p>{{chat.owner}}</p></div>
 				<h3 ng-click="chat.toggleShown(chat.moderators)">Moderators 
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.moderators.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.moderators.isShown"></span>

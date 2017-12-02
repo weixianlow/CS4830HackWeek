@@ -48,6 +48,9 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 						id: child.key
 					});
 					break;
+				case "owner":
+					outer.owner = user.name;
+					break;
 			}
 		});
 
@@ -81,11 +84,15 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 	}
 
 	this.setRole = function(uid, role){
-		console.log(uid);
-
 		dbRef.child("usersInGroups/" + outer.groupName + "/" + uid).update({
 			role: role
 		});
+
+		if(role === "moderator"){
+			
+		} else if(role === "member"){
+
+		}
 	}
 
 	/*messages*/
