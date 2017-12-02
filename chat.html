@@ -10,7 +10,6 @@
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-		<!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>-->
 		<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
 		<script src="https://cdn.firebase.com/libs/firebaseui/2.4.1/firebaseui.js"></script>
 		<script src="js/firebaseConfig.js"></script>
@@ -30,22 +29,33 @@
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.moderators.isShown"></span>
 				</h3>
 				<div id="mods" class="toggleBox" hidden>
-					<p ng-repeat="user in chat.moderators.users">{{user}}</p>
+					<div class="flex" ng-repeat="user in chat.moderators.users">
+						<p>{{user}}</p>
+						<button type="button" class="btn" data-toggle="tooltip" title="Demote to Member" ng-show="chat.role === 'owner'">
+							<span class="glyphicon glyphicon-chevron-down"></span>
+						</button>
+					</div>
 				</div>
 				<h3 ng-click="chat.toggleShown(chat.members)">Members
 					<span class="glyphicon glyphicon-chevron-right" ng-show="!chat.members.isShown"></span>
 					<span class="glyphicon glyphicon-chevron-down" ng-show="chat.members.isShown"></span>
 				</h3>
 				<div id="members" class="toggleBox" hidden>
-					<p ng-repeat="user in chat.members.users">{{user}}</p>
+					<div class="flex" ng-repeat="user in chat.members.users">
+						<p>{{user}}</p>
+						<button type="button" class="btn" data-toggle="tooltip" title="Promote to Moderator" ng-show="chat.role === 'owner'">
+							<span class="glyphicon glyphicon-chevron-up"></span>
+						</button>
+					</div>
 				</div>
 			</div>
 			<div id="chat" class="col-md-10 col-lg-10 flex flexVertical">
 				<div id="messages" class="flex" data-ng-init="chat.loadMessages()">
 					<div id="spacer"></div>
-					<p ng-repeat="message in chat.messages">
-						<strong>{{message.name}}: </strong>{{message.data}}
-					</p>
+					<div class="flex" ng-repeat="message in chat.messages">
+						<button type="button" class="btn btn-danger" ng-show="chat.isModerator()"><strong>&times;</strong></button>
+						<p><strong>{{message.name}}: </strong>{{message.data}}</p>
+					</div>
 				</div>
 				<form id="sendMessage" ng-submit="chat.sendMessage()">
 					<div class="form-group">

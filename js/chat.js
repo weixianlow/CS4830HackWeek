@@ -34,11 +34,9 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 				outer.role = user.role;
 			}
 
-
 			switch(user.role){
 				case "member":
 					outer.members.users.push(user.name);
-					console.log(outer.members);
 					break;
 
 				case "moderator":
@@ -53,13 +51,19 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 			if(!delayedRefresh){
 				delayedRefresh = setTimeout(function(){
 					$scope.$apply();
+					$('[data-toggle="tooltip"]').tooltip(); 
 					delayedRefresh = undefined;
 				}, 512);
 			}
 		}else{	
 			$scope.$apply();
+			$('[data-toggle="tooltip"]').tooltip(); 	
 		}
 	});
+
+	this.isModerator = function(){
+		return this.role.match(/^moderator$|^owner$/g) ? true : false;
+	}
 
 	this.toggleShown = function(userType){
 		userType.isShown = !userType.isShown;
@@ -68,6 +72,10 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 			    height: 'toggle'
 			});
 		}
+	}
+
+	this.setRole = function(){
+		
 	}
 
 	/*messages*/
@@ -89,7 +97,6 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 
 	dbRef.child("groups/" + outer.groupName + "/messages/").on("child_added", function(snapshot){
 		var newMessage = snapshot.val();
-
 		outer.messages.push({
 			name: newMessage.owner,
 			data: newMessage.data
