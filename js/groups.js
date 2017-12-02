@@ -83,7 +83,7 @@ angular.module('ChatGroupList', []).controller('GroupListController', function($
 					var groupsOfUsersEntry = {};
 					groupsOfUsersEntry[outer.newGroupName] = true;
 
-					dbRef.child("groupsOfUsers/" + userInfo.uid + "/").set(groupsOfUsersEntry);
+					dbRef.child("groupsOfUsers/" + userInfo.uid + "/").update(groupsOfUsersEntry);
 
 					var usersInGroupsEntry = {};
 					usersInGroupsEntry[userInfo.uid] = {
