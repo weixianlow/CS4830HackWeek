@@ -84,14 +84,26 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 	}
 
 	this.setRole = function(uid, role){
+		console.log(uid);
+
 		dbRef.child("usersInGroups/" + outer.groupName + "/" + uid).update({
 			role: role
 		});
 
 		if(role === "moderator"){
-			
-		} else if(role === "member"){
+			var index = outer.members.users.findIndex(function(elem){
+				return elem.id === uid;
+			});
 
+			outer.moderators.users.push(outer.members.users[index]);
+			outer.members.users.splice(index, 1);
+		} else if(role === "member"){
+			var index = outer.moderators.users.findIndex(function(elem){
+				return elem.id === uid;
+			});
+
+			outer.members.users.push(outer.moderators.users[index]);
+			outer.moderators.users.splice(index, 1);
 		}
 	}
 
