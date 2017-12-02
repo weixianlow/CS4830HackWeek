@@ -36,11 +36,17 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 
 			switch(user.role){
 				case "member":
-					outer.members.users.push(user.name);
+					outer.members.users.push({
+						name: user.name,
+						id: child.key
+					});
 					break;
 
 				case "moderator":
-					outer.moderators.users.push(user.name);
+					outer.moderators.users.push({
+						name: user.name,
+						id: child.key
+					});
 					break;
 			}
 		});
@@ -74,8 +80,12 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 		}
 	}
 
-	this.setRole = function(){
-		
+	this.setRole = function(uid, role){
+		console.log(uid);
+
+		dbRef.child("usersInGroups/" + outer.groupName + "/" + uid).update({
+			role: role
+		});
 	}
 
 	/*messages*/

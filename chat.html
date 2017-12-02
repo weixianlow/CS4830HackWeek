@@ -30,8 +30,8 @@
 				</h3>
 				<div id="mods" class="toggleBox" hidden>
 					<div class="flex" ng-repeat="user in chat.moderators.users">
-						<p>{{user}}</p>
-						<button type="button" class="btn" data-toggle="tooltip" title="Demote to Member" ng-show="chat.role === 'owner'">
+						<p>{{user.name}}</p>
+						<button type="button" class="btn" data-toggle="tooltip" title="Demote to Member" ng-click="chat.setRole(user.id, 'member')" ng-show="chat.role === 'owner'">
 							<span class="glyphicon glyphicon-chevron-down"></span>
 						</button>
 					</div>
@@ -42,8 +42,8 @@
 				</h3>
 				<div id="members" class="toggleBox" hidden>
 					<div class="flex" ng-repeat="user in chat.members.users">
-						<p>{{user}}</p>
-						<button type="button" class="btn" data-toggle="tooltip" title="Promote to Moderator" ng-show="chat.role === 'owner'">
+						<p>{{user.name}}</p>
+						<button type="button" class="btn" data-toggle="tooltip" title="Promote to Moderator" ng-click="chat.setRole(user.id, 'moderator')" ng-show="chat.role === 'owner'">
 							<span class="glyphicon glyphicon-chevron-up"></span>
 						</button>
 					</div>
