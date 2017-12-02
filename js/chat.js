@@ -110,23 +110,11 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 	/*messages*/
 	this.messages = [];
 
-	this.sendMessage = function(){
-		if(outer.input){
-			var date = Date.now();
-		    var newDbRef = dbRef.child("groups/" + outer.groupName + "/messages/").push();
-
-		    newDbRef.set({
-				owner: userInfo.displayName,
-				data: outer.input
-			});
-
-			outer.input = "";
-		}
-	}
-
+	//load messages
 	dbRef.child("groups/" + outer.groupName + "/messages/").on("child_added", function(snapshot){
 		var newMessage = snapshot.val();
 		outer.messages.push({
+			id: snapshot.key,
 			name: newMessage.owner,
 			data: newMessage.data
 		});
@@ -146,4 +134,28 @@ angular.module('Chat', []).controller('ChatController', function($scope){
 			document.getElementById("messages").scrollTo(0, 10000);
 		}
 	});
+
+	this.sendMessage = function(){
+		if(outer.input){
+			var date = Date.now();
+		    var newDbRef = dbRef.child("groups/" + outer.groupName + "/messages/").push();
+
+		    newDbRef.set({
+				owner: userInfo.displayName,
+				data: outer.input
+			});
+
+			outer.input = "";
+		}
+	}
+
+	this.deleteMessage = function(message){
+		var index = outer.messages.findIndex(function(elem){
+			return elem.id === message;
+		});
+
+		dbRef.child("groups/" + this.groupName + "/messages/" + message).remove();
+
+		outer.messages.splice(index, 1);
+	}
 });

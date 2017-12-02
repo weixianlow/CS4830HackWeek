@@ -53,7 +53,7 @@
 				<div id="messages" class="flex" data-ng-init="chat.loadMessages()">
 					<div id="spacer"></div>
 					<div class="flex" ng-repeat="message in chat.messages">
-						<button type="button" class="btn btn-danger" ng-show="chat.isModerator()"><strong>&times;</strong></button>
+						<button type="button" class="btn btn-danger" ng-click="chat.deleteMessage(message.id)" ng-show="chat.isModerator()"><strong>&times;</strong></button>
 						<p><strong>{{message.name}}: </strong>{{message.data}}</p>
 					</div>
 				</div>
